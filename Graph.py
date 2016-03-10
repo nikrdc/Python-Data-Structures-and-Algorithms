@@ -2,9 +2,10 @@ from PriorityQueue import PriorityQueue
 
 class Graph(object):
     """
-    A graph (directed or undirected) represented by an adjacency matrix (a list of lists).
-    If a link exists between nodes a and b, the value of self.adj_matrix[i][j] = True, where i
-    and j are the indices of a and b in the first row and column of the adjacency matrix. 
+    A graph (directed or undirected) represented by an adjacency matrix (a list 
+    of lists). If a link exists between nodes a and b, the value of 
+    self.adj_matrix[i][j] = True, where i and j are the indices of a and b in 
+    the first row and column of the adjacency matrix. 
 
             DC      SF      NYC
     DC      False   True    False
@@ -18,7 +19,6 @@ class Graph(object):
 
     If the graph is weighted, True values will be replaced with weights. 
     """
-
     def __init__(self, directed=False, weighted=False, nodes=[]):
         self.directed = directed
         self.weighted = weighted
@@ -36,6 +36,10 @@ class Graph(object):
         return str_matrix
 
     def indices(self, node_a, node_b):
+        """
+        Returns the adjancency matrix indices of the two given nodes. indices
+        need to be switched to handle undirected nodes.  
+        """
         return self.adj_matrix[0].index(node_a), self.adj_matrix[0].index(node_b)
 
     def add_link(self, node_a, node_b, weight=True):
@@ -51,6 +55,9 @@ class Graph(object):
             self.adj_matrix[index_b][index_a] = False
 
     def link_exist(self, node_a, node_b):
+        """
+        Returns whether a link exists between the two given nodes. 
+        """
         index_a, index_b = self.indices(node_a, node_b)
         if self.adj_matrix[index_a][index_b]:
             return True
@@ -58,6 +65,9 @@ class Graph(object):
             return False
 
     def link_weight(self, node_a, node_b):
+        """
+        Returns the weight of a link between the two given nodes.  
+        """
         index_a, index_b = self.indices(node_a, node_b)
         if self.link_exist(node_a, node_b):
             return self.adj_matrix[index_a][index_b]
@@ -79,9 +89,16 @@ class Graph(object):
             del adj_list[del_index]
 
     def linked(self, node):
+        """
+        Returns a list of nodes linked to the given node. 
+        """
         return [dst for dst in self.adj_matrix[0] if dst and self.link_exist(node, dst)]
 
     def dfs(self, start):
+        """
+        Uses the inner_dfs function to recursively traverse the Graph from 
+        start. Includes a list of visited nodes to prevent cycles. 
+        """
         visited = []
         def inner_dfs(node):
             print node
@@ -90,12 +107,13 @@ class Graph(object):
             for dst in linked:
                 if dst not in visited:
                     inner_dfs(dst)
-        inner_dfs(start)
+        return inner_dfs(start)
 
     def bfs(self, start, min_distance=False):
         """
-        This breadth-first search function can also be used to return minimum distances from
-        start if the graph is unweighted.
+        This breadth-first search function can also be used to return minimum 
+        distances from start if the graph is unweighted. Uses a Python list as 
+        a queue to traverse nodes by distance from root. 
         """
         queue = []
         queue.append(start)
@@ -113,7 +131,11 @@ class Graph(object):
             else:
                 print node
 
-    def dijkstra(self, target):
+    def shortest_path(self, target):
+        """
+        Uses Dijkstra's algorithm to return the shortest paths between the 
+        target and all other nodes in the graph.
+        """
         if not self.weighted:
             print "Graph is not weighted; redirecting to BFS"
             return self.bfs(target, min_distance=True)
@@ -143,6 +165,5 @@ class Graph(object):
                    distances_pq.enqueue(neighbor_distance, neighbor)
             unvisited.remove(min_node)
         return distances_dict
-
 
 

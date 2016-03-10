@@ -1,9 +1,11 @@
 class PriorityQueue(object):
     """ 
-    Priority queue represented by a heap (max or min), which is implemented by a binary tree,
-    which is represented by a list. 
-    For each element of the list with index i, its children are at indices 2*i and (2*i)+1 and 
-    its parent is at index i/2.
+    Priority queue represented by a heap (max or min), which is implemented by 
+    a binary tree, which is represented by a list. 
+    
+    For each element of the list with index i, its children are at indices 2*i 
+    and (2*i)+1 and its parent is at index i/2.
+    
     Currently does not handle in order dequeuing of duplicate priorities.
     """
 

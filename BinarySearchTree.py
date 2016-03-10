@@ -10,11 +10,13 @@ class BinarySearchTree(object):
     """
     Binary Search Tree represented using BSTNodes.
     """
-
     def __init__(self):
         self.root = None
 
     def insert(self, value):
+        """
+        Insert a value into the BinarySearchTree as a leaf BSTNode.
+        """
         # If tree is empty, add value as root
         if not self.root:
             self.root = BSTNode(value)
@@ -37,6 +39,10 @@ class BinarySearchTree(object):
                         break
 
     def find(self, value):
+        """
+        Use the inherent structure of the BinarySearchTree to find a value,
+        starting from the root. 
+        """
         if not self.root:
             return None
         else:
@@ -55,6 +61,10 @@ class BinarySearchTree(object):
             return current_node
 
     def remove(self, value):
+        """
+        Remove a value from the BinarySearchTree by deleting its BSTNode and 
+        rearranging the remanining nodes. 
+        """
         removenode = self.find(value)
         if not removenode:
             return "value not found in BinarySearchTree"
@@ -81,5 +91,37 @@ class BinarySearchTree(object):
                 removenode.parent.left_child = removenode.right_child
             else:
                 removenode.parent.right_child = removenode.right_child
+
+    def dfs(self):
+        """
+        Depth first search that traverses a BinarySearchTree. Uses the 
+        inner_dfs function to recursively traverse the tree from the root.
+        """
+        def inner_dfs(node):
+            # preorder visit
+            if node.left_child:
+                inner_dfs(node.left_child)
+            # inorder visit
+            print node.value
+            if node.right_child:
+                inner_dfs(node.right_child)
+            # postorder visit
+        return inner_dfs(self.root)
+
+    def bfs(self):
+        """
+        Breadth first search that traverses a BinarySearchTree. Uses a Python 
+        list as a queue for traversing nodes by distance from the root. 
+        """
+        queue = []
+        queue.append(self.root)
+        while queue:
+            node = queue[0]
+            print node.value
+            if node.left_child:
+                queue.append(node.left_child)
+            if node.right_child:
+                queue.append(node.right_child)
+            del queue[0]
 
 
