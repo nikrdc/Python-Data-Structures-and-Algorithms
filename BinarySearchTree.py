@@ -124,4 +124,42 @@ class BinarySearchTree(object):
                 queue.append(node.right_child)
             del queue[0]
 
+    def superbalanced(self):
+        """
+        A tree is "superbalanced" if the difference between the depths of any 
+        two leaf nodes is no greater than one.
+        """
+        self.min_depth = None
+        self.max_depth = None
+
+        queue = []
+        queue.append((self.root, 0))
+        while queue:
+            node = queue[0][0]
+            depth = queue[0][1]
+            if node.left_child:
+                queue.append((node.left_child, depth+1))
+            if node.right_child:
+                queue.append((node.right_child, depth+1))
+            if not node.left_child and not node.right_child:
+                if self.min_depth:
+                    if self.max_depth:
+                        if depth < self.min_depth or depth > self.max_depth:
+                            return False
+                    elif abs(self.min_depth - depth) <= 1:
+                        if self.min_depth > depth:
+                            self.max_depth = self.min_depth
+                            self.min_depth = depth
+                        elif self.min_depth < depth:
+                            self.max_depth = depth
+                    else:
+                        return False
+                else:
+                    self.min_depth = depth
+            del queue[0]
+
+        return True
+
+
+
 
