@@ -160,6 +160,27 @@ class BinarySearchTree(object):
 
         return True
 
+    def valid(self):
+        """
+        Check that a binary tree is a valid binary search tree.
+        """
+        queue = []
+        queue.append(self.root)
+        while queue:
+            node = queue[0]
+            if node.left_child:
+                if node.left_child.value <= node.value:
+                    queue.append(node.left_child)
+                else:
+                    return False
+            if node.right_child:
+                if node.right_child.value > node.value:
+                    queue.append(node.right_child)
+                else:
+                    return False
+            del queue[0]
+        return True
+
 
 
 
