@@ -13,7 +13,6 @@ class LinkedListNode(object):
         """
         Determine whether the linked list contains a cycle.
         """
-        seen = []
         slow_runner = self
         fast_runner = self
         while slow_runner and fast_runner:

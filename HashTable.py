@@ -1,5 +1,5 @@
 class HashTable(object):
-    def __init__(self, total_buckets=1):
+    def __init__(self, total_buckets=100):
         self.total_buckets = total_buckets
         self.key_list = [None for i in xrange(self.total_buckets)]
         

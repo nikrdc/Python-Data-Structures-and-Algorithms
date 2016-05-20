@@ -97,17 +97,19 @@ class Graph(object):
     def dfs(self, start):
         """
         Uses the inner_dfs function to recursively traverse the Graph from 
-        start. Includes a list of visited nodes to prevent cycles. 
+        start. Includes a list of visited nodes to prevent traversing cycles. 
         """
         visited = []
         def inner_dfs(node):
-            print node
             visited.append(node)
             linked = self.linked(node)
             for dst in linked:
-                if dst not in visited:
+                if dst in visited:
+                    print 'Cycle Detected'
+                else:
                     inner_dfs(dst)
-        return inner_dfs(start)
+        inner_dfs(start)
+        return visited
 
     def bfs(self, start, min_distance=False):
         """
@@ -160,10 +162,12 @@ class Graph(object):
             for neighbor in neighbors:
                 neighbor_distance = min(distances_dict[neighbor], 
                                         min_distance + self.link_weight(min_node, neighbor))
-                if neighbor_distance != distances_dict[node]:
+                if neighbor_distance != distances_dict[neighbor]:
                    distances_dict[neighbor] = neighbor_distance
                    distances_pq.enqueue(neighbor_distance, neighbor)
             unvisited.remove(min_node)
         return distances_dict
+
+        
 
 

@@ -161,26 +161,13 @@ class BinarySearchTree(object):
         return True
 
     def valid(self):
-        """
-        Check that a binary tree is a valid binary search tree.
-        """
-        queue = []
-        queue.append(self.root)
-        while queue:
-            node = queue[0]
-            if node.left_child:
-                if node.left_child.value <= node.value:
-                    queue.append(node.left_child)
-                else:
-                    return False
-            if node.right_child:
-                if node.right_child.value > node.value:
-                    queue.append(node.right_child)
-                else:
-                    return False
-            del queue[0]
-        return True
-
-
+        def dfs_valid(node, maximum, minimum):
+            if not node:
+                return True
+            if node.value < maximum and node.value > minimum and dfs_valid(node.left_child, node.value, minimum) and dfs_valid(node.right_child, maximum, minimum):
+                return True
+            else:
+                return False
+        return dfs_valid(self.root, float("inf"), float("-inf"))
 
 
